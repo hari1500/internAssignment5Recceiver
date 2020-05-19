@@ -29,9 +29,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(CustomReceiver.fileName, Context.MODE_PRIVATE);
         Set<String> receivedMessages = sharedPreferences.getStringSet(CustomReceiver.receivedMessagesKey, null);
         if (receivedMessages != null) {
-            for(String message : receivedMessages) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            }
+            receivedMessages.forEach(new Consumer<String>() {
+                @Override
+                public void accept(String msg) {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            });
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putStringSet(CustomReceiver.receivedMessagesKey, new HashSet<String>());
             editor.apply();
